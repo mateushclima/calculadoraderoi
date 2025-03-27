@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import html2pdf from "html2pdf.js";
+
 
 export default function Home() {
   const [nomeCliente, setNomeCliente] = useState("");
@@ -32,7 +32,8 @@ export default function Home() {
     return "#22c55e";
   };
 
-  const exportarPDF = () => {
+  const exportarPDF = async () => {
+    const html2pdf = (await import("html2pdf.js")).default;
     const element = document.getElementById("resultado-pdf");
     const opt = {
       margin: 0.3,
