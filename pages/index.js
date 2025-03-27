@@ -83,11 +83,11 @@ export default function Home() {
         <p><strong>Clientes que retornaram:</strong> {convertidos.toFixed(2)}</p>
         <p><strong>Receita gerada:</strong> {receita.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p>
         <p><strong>Lucro líquido:</strong> {lucro.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p>
-        <p className="text-3xl font-bold text-green-600">ROI: {roi.toFixed(2)}%</p>
-        <p><strong>ROI reduzido (50%):</strong> {roiReduc.toFixed(2)}%</p>
+        <p className="text-3xl font-bold" style={{ color: getCor(roi) }}>ROI: {roi.toFixed(2)}%</p>
+        <p><strong style={{ color: getCor(roiReduc) }}>ROI reduzido (50%):</strong> {roiReduc.toFixed(2)}%</p>
         <div>
           <p className="font-semibold mb-1">Classificação do ROI:</p>
-          <div className="w-full h-4 rounded" style={{ backgroundColor: getCor(roi) }} />
+          <div className="h-4 rounded" style={{ backgroundColor: getCor(roi), width: Math.min(roi, 1000) + "%" }} />
           <span className="inline-block mt-1 px-3 py-1 rounded-full text-white text-sm font-medium" style={{ backgroundColor: getCor(roi) }}>
             {getClassificacao(roi)}
           </span>
