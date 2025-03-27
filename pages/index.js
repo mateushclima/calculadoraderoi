@@ -1,4 +1,6 @@
+
 import { useState } from "react";
+import html2pdf from "html2pdf.js";
 
 export default function Home() {
   const [nomeCliente, setNomeCliente] = useState("");
@@ -31,7 +33,15 @@ export default function Home() {
   };
 
   const exportarPDF = () => {
-    window.print();
+    const element = document.getElementById("resultado-pdf");
+    const opt = {
+      margin: 0.3,
+      filename: `ROI_${nomeCliente || "cliente"}.pdf`,
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: "in", format: "letter", orientation: "portrait" }
+    };
+    html2pdf().set(opt).from(element).save();
   };
 
   return (
@@ -39,8 +49,8 @@ export default function Home() {
       <img src="/repediu-logo.png" alt="Repediu" className="h-12" />
       <h1 className="text-2xl font-bold text-[#FF2D55]">Calculadora de ROI - Repediu</h1>
 
-      <div className="grid grid-cols-2 gap-4 p-4 border rounded-md bg-white shadow">
-        <div className="col-span-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 border rounded-2xl shadow-md bg-white">
+        <div className="sm:col-span-2">
           <label className="font-semibold">Nome do cliente</label>
           <input value={nomeCliente} onChange={(e) => setNomeCliente(e.target.value)} className="w-full p-2 border rounded" />
         </div>
@@ -66,20 +76,28 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="p-4 border rounded-md shadow space-y-2 bg-white">
+      <div id="resultado-pdf" className="p-4 border rounded-2xl shadow-md bg-white space-y-3">
+        <h2 className="text-lg font-semibold text-[#FF2D55] border-b pb-1">📊 Resultados automáticos</h2>
         <p><strong>Cliente:</strong> {nomeCliente}</p>
         <p><strong>Clientes que retornaram:</strong> {convertidos.toFixed(2)}</p>
-        <p><strong>Receita gerada:</strong> R$ {receita.toFixed(2)}</p>
-        <p><strong>Lucro líquido:</strong> R$ {lucro.toFixed(2)}</p>
-        <p><strong>ROI:</strong> {roi.toFixed(2)}%</p>
+        <p><strong>Receita gerada:</strong> {receita.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p>
+        <p><strong>Lucro líquido:</strong> {lucro.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p>
+        <p className="text-3xl font-bold text-green-600">ROI: {roi.toFixed(2)}%</p>
         <p><strong>ROI reduzido (50%):</strong> {roiReduc.toFixed(2)}%</p>
         <div>
-          <p className="font-semibold">Classificação do ROI:</p>
+          <p className="font-semibold mb-1">Classificação do ROI:</p>
           <div className="w-full h-4 rounded" style={{ backgroundColor: getCor(roi) }} />
-          <p>{getClassificacao(roi)}</p>
+          <span className="inline-block mt-1 px-3 py-1 rounded-full text-white text-sm font-medium" style={{ backgroundColor: getCor(roi) }}>
+            {getClassificacao(roi)}
+          </span>
         </div>
-        <button onClick={exportarPDF} className="px-4 py-2 bg-[#FF2D55] text-white rounded">Exportar PDF</button>
       </div>
+
+      <div className="text-right">
+        <button onClick={exportarPDF} className="px-4 py-2 bg-[#FF2D55] text-white rounded shadow-md">Exportar PDF</button>
+      </div>
+
+      <p className="text-center text-xs text-gray-400 mt-6">Criado com ❤️ por Repediu</p>
     </main>
   );
 }
