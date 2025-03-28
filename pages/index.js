@@ -1,7 +1,6 @@
 
 import { useState } from "react";
 
-
 export default function Home() {
   const [nomeCliente, setNomeCliente] = useState("");
   const [impactados, setImpactados] = useState(0);
@@ -47,8 +46,17 @@ export default function Home() {
 
   return (
     <main className="max-w-4xl mx-auto p-6 space-y-6 font-sans">
-      <img src="/repediu-logo.png" alt="Repediu" className="h-12" />
-      <h1 className="text-2xl font-bold text-[#FF2D55]">Calculadora de ROI - Repediu</h1>
+      <header className="bg-white shadow sticky top-0 z-10">
+        <div className="max-w-5xl mx-auto px-6 py-3 flex justify-between items-center">
+          <img src="/repediu-logo.png" alt="Repediu" className="h-10" />
+          <nav className="flex gap-6 text-repediu font-medium">
+            <a href="/" className="hover:underline underline-offset-4 transition">Calculadora</a>
+            <a href="/roi" className="hover:underline underline-offset-4 transition">Saiba mais sobre ROI</a>
+          </nav>
+        </div>
+      </header>
+
+      <h1 className="text-2xl font-bold text-repediu">Calculadora de ROI</h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 border rounded-2xl shadow-md bg-white">
         <div className="sm:col-span-2">
@@ -78,7 +86,7 @@ export default function Home() {
       </div>
 
       <div id="resultado-pdf" className="p-4 border rounded-2xl shadow-md bg-white space-y-3">
-        <h2 className="text-lg font-semibold text-[#FF2D55] border-b pb-1">📊 Resultados automáticos</h2>
+        <h2 className="text-lg font-semibold text-repediu border-b pb-1">📊 Resultados automáticos</h2>
         <p><strong>Cliente:</strong> {nomeCliente}</p>
         <p><strong>Clientes que retornaram:</strong> {convertidos.toFixed(2)}</p>
         <p><strong>Receita gerada:</strong> {receita.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p>
@@ -95,7 +103,7 @@ export default function Home() {
       </div>
 
       <div className="text-right">
-        <button onClick={exportarPDF} className="px-4 py-2 bg-[#FF2D55] text-white rounded shadow-md">Exportar PDF</button>
+        <button onClick={exportarPDF} className="px-4 py-2 bg-repediu text-white rounded shadow-md">Exportar PDF</button>
       </div>
 
       <p className="text-center text-xs text-gray-400 mt-6">Criado com ❤️ por Repediu</p>
